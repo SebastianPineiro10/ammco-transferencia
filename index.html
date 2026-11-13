@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#062b89">
+
+  <title>Datos bancarios y fiscales | AMM.CO</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --azul: #07349a;
+      --azul-oscuro: #061d60;
+      --azul-medio: #0a57c4;
+      --amarillo: #ffca05;
+      --amarillo-oscuro: #f2b500;
+      --blanco: #ffffff;
+      --texto: #15234b;
+      --gris: #f3f6fb;
+      --borde: #dfe6f0;
+      --sombra: 0 16px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    /* ======================================
+       FONDO AZUL CON ORILLAS AMARILLAS
+    ====================================== */
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+
+      padding: 24px 14px;
+
+      font-family: "DM Sans", sans-serif;
+
+      position: relative;
+      overflow-x: hidden;
+
+      background:
+        radial-gradient(
+          ellipse at top left,
+          rgba(255, 202, 5, 0.55) 0%,
+          transparent 32%
+        ),
+        radial-gradient(
+          ellipse at bottom right,
+          rgba(255, 202, 5, 0.48) 0%,
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #041a56 0%,
+          #0b4eb6 50%,
+          #082e78 100%
+        );
+
+      background-attachment: fixed;
+    }
+
+    /* Líneas sutiles en el fondo exterior */
+
+    body::before {
+      content: "";
+
+      position: fixed;
+      inset: 0;
+
+      pointer-events: none;
+      z-index: 0;
+
+      background:
+        repeating-linear-gradient(
+          135deg,
+          rgba(255, 202, 5, 0.10) 0px,
+          rgba(255, 202, 5, 0.10) 2px,
+          transparent 2px,
+          transparent 32px
+        );
+
+      opacity: 0.65;
+    }
+
+    /* Detalles amarillos en las esquinas */
+
+    body::after {
+      content: "";
+
+      position: fixed;
+      inset: 0;
+
+      pointer-events: none;
+      z-index: 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 202, 5, 0.50) 0%,
+          transparent 13%
+        ),
+        linear-gradient(
+          315deg,
+          rgba(255, 202, 5, 0.45) 0%,
+          transparent 13%
+        );
+    }
+
+    /* ======================================
+       CONTENEDOR
+    ====================================== */
+
+    .contenedor {
+      width: 100%;
+      max-width: 500px;
+
+      margin: 0 auto;
+
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ======================================
+       ENCABEZADO LIMPIO SIN LÍNEAS
+    ====================================== */
+
+    .encabezado {
+      padding: 26px 22px 24px;
+
+      background: linear-gradient(
+        135deg,
+        #061b5e 0%,
+        #0a4cb0 55%,
+        #082f79 100%
+      );
+
+      border-radius: 24px;
+      border-bottom: 6px solid var(--amarillo);
+
+      text-align: center;
+
+      box-shadow: var(--sombra);
+
+      margin-bottom: 18px;
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Eliminar las líneas del encabezado */
+
+    .encabezado::before {
+      content: none;
+    }
+
+    /* ======================================
+       LOGO
+    ====================================== */
+
+    .logo {
+      width: min(100%, 345px);
+
+      margin: 0 auto 16px;
+
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo img {
+      display: block;
+
+      width: 100%;
+      height: auto;
+
+      object-fit: contain;
+    }
+
+    /* ======================================
+       TÍTULO
+    ====================================== */
+
+    .encabezado h1 {
+      font-family: "Outfit", sans-serif;
+
+      font-size: 26px;
+      font-weight: 700;
+
+      color: var(--blanco);
+
+      line-height: 1.2;
+
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ======================================
+       TARJETAS
+    ====================================== */
+
+    .card {
+      background: var(--blanco);
+
+      border-radius: 22px;
+
+      padding: 24px 20px;
+
+      margin-bottom: 18px;
+
+      box-shadow: var(--sombra);
+
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .card:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+
+      border-bottom: 2px solid var(--amarillo);
+    }
+
+    .indicador {
+      display: block;
+
+      width: 7px;
+      height: 25px;
+
+      background: var(--amarillo);
+      border-radius: 5px;
+
+      flex-shrink: 0;
+    }
+
+    .card-header h2 {
+      font-family: "Outfit", sans-serif;
+
+      font-size: 21px;
+      font-weight: 700;
+
+      color: var(--azul-oscuro);
+    }
+
+    /* ======================================
+       CAMPOS
+    ====================================== */
+
+    .campo {
+      margin-bottom: 17px;
+    }
+
+    .campo:last-child {
+      margin-bottom: 0;
+    }
+
+    .etiqueta {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #52617a;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .dato {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 9px;
+      min-height: 54px;
+
+      padding: 9px 10px 9px 14px;
+
+      background: var(--gris);
+
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+    }
+
+    .valor {
+      flex: 1;
+      min-width: 0;
+
+      color: var(--azul-oscuro);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      overflow-wrap: anywhere;
+      font-variant-numeric: tabular-nums;
+
+      user-select: all;
+      -webkit-user-select: all;
+    }
+
+    .valor.clabe {
+      font-size: 15px;
+    }
+
+    /* ======================================
+       BOTONES COPIAR
+    ====================================== */
+
+    .copiar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 5px;
+
+      flex-shrink: 0;
+
+      min-width: 82px;
+      min-height: 42px;
+
+      padding: 9px 10px;
+
+      border: none;
+      border-radius: 9px;
+
+      background: var(--azul);
+      color: var(--blanco);
+
+      font-family: inherit;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s,
+        transform 0.2s;
+    }
+
+    .copiar:hover {
+      background: var(--azul-oscuro);
+    }
+
+    .copiar:active {
+      transform: scale(0.97);
+    }
+
+    .copiar.copiado {
+      background: #12835b;
+    }
+
+    .copiar:focus-visible {
+      outline: 3px solid var(--amarillo);
+      outline-offset: 2px;
+    }
+
+    .copiar svg {
+      width: 15px;
+      height: 15px;
+
+      fill: none;
+      stroke: currentColor;
+
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ======================================
+       RESPONSIVE
+    ====================================== */
+
+    @media (max-width: 480px) {
+      body {
+        padding: 12px 10px;
+      }
+
+      .encabezado {
+        padding: 20px 16px 18px;
+        border-radius: 20px;
+        margin-bottom: 12px;
+      }
+
+      .logo {
+        width: min(100%, 300px);
+        margin-bottom: 12px;
+      }
+
+      .encabezado h1 {
+        font-size: 23px;
+      }
+
+      .card {
+        padding: 19px 15px;
+        border-radius: 18px;
+        margin-bottom: 12px;
+      }
+
+      .card-header {
+        margin-bottom: 15px;
+        padding-bottom: 11px;
+      }
+
+      .card-header h2 {
+        font-size: 19px;
+      }
+
+      .campo {
+        margin-bottom: 14px;
+      }
+
+      .valor {
+        font-size: 15px;
+      }
+
+      .valor.clabe {
+        font-size: 14px;
+      }
+
+      .copiar {
+        min-width: 75px;
+        padding: 8px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .card {
+        padding: 16px 12px;
+      }
+
+      .dato {
+        gap: 6px;
+        padding-left: 10px;
+      }
+
+      .valor {
+        font-size: 14px;
+      }
+
+      .valor.clabe {
+        font-size: 13px;
+      }
+
+      .copiar {
+        min-width: 66px;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="contenedor">
+
+    <!-- ENCABEZADO -->
+
+    <header class="encabezado">
+
+      <div class="logo">
+        <img src="./logo.png" alt="AMM.CO">
+      </div>
+
+      <h1>Transferencia bancaria</h1>
+
+    </header>
+
+    <!-- DATOS BANCARIOS -->
+
+    <section class="card">
+
+      <div class="card-header">
+        <span class="indicador"></span>
+        <h2>Datos bancarios</h2>
+      </div>
+
+      <!-- BANCO -->
+
+        <!-- BANCO -->
+
+        <div class="campo">
+        <span class="etiqueta">Banco</span>
+
+        <div class="dato">
+
+            <span class="valor" id="banco">
+            Scotiabank
+            </span>
+
+            <button
+            class="copiar"
+            type="button"
+            onclick="copiarDato('banco', this)"
+            aria-label="Copiar nombre del banco"
+            >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect
+                x="8"
+                y="8"
+                width="12"
+                height="12"
+                rx="2"
+                />
+                <path
+                d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"
+                />
+            </svg>
+
+            <span>Copiar</span>
+            </button>
+
+        </div>
+        </div>
+
+
+      <!-- TITULAR -->
+
+      <div class="campo">
+        <span class="etiqueta">Nombre del titular</span>
+
+        <div class="dato">
+
+          <span class="valor" id="titular">
+            Isaac Esqueda Casas
+          </span>
+
+          <button
+            class="copiar"
+            type="button"
+            onclick="copiarDato('titular', this)"
+            aria-label="Copiar titular"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="8" width="12" height="12" rx="2" />
+              <path
+                d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"
+              />
+            </svg>
+
+            <span>Copiar</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- CLABE -->
+
+      <div class="campo">
+        <span class="etiqueta">CLABE interbancaria</span>
+
+        <div class="dato">
+
+          <span class="valor clabe" id="clabe">
+            044164226068567805
+          </span>
+
+          <button
+            class="copiar"
+            type="button"
+            onclick="copiarDato('clabe', this)"
+            aria-label="Copiar CLABE"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="8" width="12" height="12" rx="2" />
+              <path
+                d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"
+              />
+            </svg>
+
+            <span>Copiar</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- CUENTA -->
+
+      <div class="campo">
+        <span class="etiqueta">Número de cuenta</span>
+
+        <div class="dato">
+
+          <span class="valor" id="cuenta">
+            22606856780
+          </span>
+
+          <button
+            class="copiar"
+            type="button"
+            onclick="copiarDato('cuenta', this)"
+            aria-label="Copiar cuenta"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="8" width="12" height="12" rx="2" />
+              <path
+                d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0 2 2h2"
+              />
+            </svg>
+
+            <span>Copiar</span>
+          </button>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- DATOS FISCALES -->
+
+    <section class="card">
+
+      <div class="card-header">
+        <span class="indicador"></span>
+        <h2>Datos fiscales</h2>
+      </div>
+
+      <!-- RFC -->
+
+      <div class="campo">
+        <span class="etiqueta">RFC</span>
+
+        <div class="dato">
+
+          <span class="valor" id="rfc">
+            EUCI307295W0
+          </span>
+
+          <button
+            class="copiar"
+            type="button"
+            onclick="copiarDato('rfc', this)"
+            aria-label="Copiar RFC"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="8" width="12" height="12" rx="2" />
+              <path
+                d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0 2 2h2"
+              />
+            </svg>
+
+            <span>Copiar</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- TELÉFONO -->
+
+      <div class="campo">
+        <span class="etiqueta">Teléfono</span>
+
+        <div class="dato">
+
+          <span class="valor" id="telefono">
+            6568944864
+          </span>
+
+          <button
+            class="copiar"
+            type="button"
+            onclick="copiarDato('telefono', this)"
+            aria-label="Copiar teléfono"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="8" width="12" height="12" rx="2" />
+              <path
+                d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0 2 2h2"
+              />
+            </svg>
+
+            <span>Copiar</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- CORREO -->
+
+      <div class="campo">
+        <span class="etiqueta">Correo electrónico</span>
+
+        <div class="dato">
+
+          <span class="valor" id="correo">
+            contacto@ammco.mx
+          </span>
+
+          <button
+            class="copiar"
+            type="button"
+            onclick="copiarDato('correo', this)"
+            aria-label="Copiar correo"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="8" width="12" height="12" rx="2" />
+              <path
+                d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0 2 2h2"
+              />
+            </svg>
+
+            <span>Copiar</span>
+          </button>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    async function copiarDato(id, boton) {
+      const elemento = document.getElementById(id);
+
+      if (!elemento) return;
+
+      const valor = elemento.textContent.trim();
+
+      if (id === 'clabe' && !/^\d{18}$/.test(valor)) {
+        alert('La CLABE debe contener 18 dígitos.');
+        return;
+      }
+
+      const texto = boton.querySelector('span');
+
+      try {
+        await navigator.clipboard.writeText(valor);
+
+        texto.textContent = '¡Listo!';
+        boton.classList.add('copiado');
+
+        setTimeout(() => {
+          texto.textContent = 'Copiar';
+          boton.classList.remove('copiado');
+        }, 1800);
+
+      } catch (error) {
+        alert('No se pudo copiar. Selecciona el dato manualmente.');
+      }
+    }
+  </script>
+
+</body>
+</html>
